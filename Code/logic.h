@@ -2,7 +2,7 @@
  * logic.h
  *
  *  Created on: Sep 28, 2024
- *      Author: aiden
+ *      Author: Aiden Wiehn
  */
 
 #ifndef CODE_LOGIC_H_

@@ -1,7 +1,7 @@
 /*
- * Prac.c
+ * proj2_main.c
  *
- *  Header Created: August 28th, 2024
+ *  Header Created: September 28th, 2024
  *      Author: Aiden Wiehn
  */
 
