@@ -95,7 +95,7 @@ void App_proj2_handleMenuScreen(App_proj2 *app, HAL *hal_p, GFX *gfx_p);
 void App_proj2_handleInstructionsScreen(App_proj2 *app, HAL *hal_p);
 void App_proj2_handleGameScreen(App_proj2 *app, HAL *hal_p, Obstacle *obj_p);
 void App_proj2_handleResultScreen(App_proj2 *app, HAL *hal_p);
-void App_proj2_handleFinalScreen(App_proj2 *app, HAL *hal_p, Obstacle *obj_p);
+void App_proj2_handleFinalScreen(GFX *gfx_p, App_proj2 *app, HAL *hal_p, Obstacle *obj_p);
 
 // Helper functions which clear the screen and draw the text for each state
 void App_proj2_showTitleScreen(GFX *gfx_p, App_proj2 *app_p);

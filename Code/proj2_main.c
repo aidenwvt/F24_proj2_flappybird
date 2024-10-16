@@ -70,14 +70,14 @@ App_proj2 App_proj2_construct(HAL *hal_p)
     app.maxY = MAX_Y;
     app.reset = false;
     app.highScores[0] = app.highScores[1] = app.highScores[2] = 000000;
-        int i;
-        for (i = 0; i < 7; i++)
-        {
-            app.currentScore[i] = app.highScoreOne[i] = app.highScoreTwo[i] =
-                    app.highScoreThree[i] = '0';
-        }
-        app.currentScore[6] = app.highScoreOne[6] = app.highScoreTwo[6] =
-                app.highScoreThree[6] = '\0';
+    int i;
+    for (i = 0; i < 7; i++)
+    {
+        app.currentScore[i] = app.highScoreOne[i] = app.highScoreTwo[i] =
+                app.highScoreThree[i] = '0';
+    }
+    app.currentScore[6] = app.highScoreOne[6] = app.highScoreTwo[6] =
+            app.highScoreThree[6] = '\0';
     return app;
 }
 
@@ -116,6 +116,6 @@ void App_proj2_loop(App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
         App_proj2_handleGameScreen(app_p, hal_p, obj_p);
         break;
     case FINAL_SCREEN:
-        App_proj2_handleFinalScreen(app_p, hal_p, obj_p);
+        App_proj2_handleFinalScreen(&hal_p->gfx, app_p, hal_p, obj_p);
     }
 }

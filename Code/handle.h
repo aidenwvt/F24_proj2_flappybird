@@ -118,7 +118,6 @@ void App_proj2_handleGameScreen(App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
     obstacleSpawner(&hal_p->gfx, app_p, hal_p, obj_p);
     damageCheck(&hal_p->gfx, app_p, hal_p, obj_p);
 
-
 // Turn off the game when all lives are lost
 
     if (app_p->lives == 0)
@@ -149,7 +148,8 @@ void App_proj2_handleResultScreen(App_proj2 *app_p, HAL *hal_p)
 // When all lives are lost, show the final screen, and when
 // the JS is pressed, go back to the menu and reset all variables
 // 14 Lines
-void App_proj2_handleFinalScreen(App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
+void App_proj2_handleFinalScreen(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p,
+                                 Obstacle *obj_p)
 {
 
     // Print out the final screen graphics
@@ -167,6 +167,14 @@ void App_proj2_handleFinalScreen(App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
         app_p->minY = MIN_Y;
         app_p->maxY = MAX_Y;
         app_p->reset = false;
+        int i;
+        for (i = 0; i < OBSTACLE_SIZE; i++)
+        {
+            Obstacle *currentObstacle = &app_p->obstacles[i];
+            currentObstacle->moving = false;
+            currentObstacle->xMin = -1;
+            currentObstacle->xMax = -1;
+        }
     }
 }
 

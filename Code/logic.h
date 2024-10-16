@@ -211,14 +211,19 @@ void damageCheck(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
            Obstacle *obstacle = &app_p->obstacles[i];
 
            // Check if player collides with the bottom pipe
+           // The below code is held together with hopes and dreams
            bool collidesWithBottom =
-               (playerXMax >= obstacle->xMin && playerXMin <= obstacle->xMax) &&  // Overlapping on the X-axis
-               (playerYMax >= obstacle->yMin && playerYMin <= obstacle->yMax);    // Overlapping on the Y-axis (bottom pipe)
+               ((playerXMax >= obstacle->xMin + 12 && playerXMin <= obstacle->xMax + 12) &&  // Overlapping on the X-axis
+               (playerYMax >= obstacle->yMin && playerYMin <= obstacle->yMax)) ||
+               ((playerXMax >= obstacle->xMin && playerXMin <= obstacle->xMax) &&  // Overlapping on the X-axis
+               (playerYMax >= obstacle->yMin && playerYMin <= obstacle->yMax)) ;    // Overlapping on the Y-axis (bottom pipe)
 
            // Check if player collides with the top pipe
            bool collidesWithTop =
-               (playerXMax >= obstacle->xMin && playerXMin <= obstacle->xMax) &&  // Overlapping on the X-axis
-               (playerYMax >= obstacle->yMin2 && playerYMin <= obstacle->yMax2);  // Overlapping on the Y-axis (top pipe)
+               ((playerXMax >= obstacle->xMin + 12 && playerXMin <= obstacle->xMax + 12) &&  // Overlapping on the X-axis
+               (playerYMax >= obstacle->yMin2 && playerYMin <= obstacle->yMax2)) ||
+               ((playerXMax >= obstacle->xMin && playerXMin <= obstacle->xMax) &&  // Overlapping on the X-axis
+               (playerYMax >= obstacle->yMin2 && playerYMin <= obstacle->yMax2));  // Overlapping on the Y-axis (top pipe)
 
            // If either collision is true, the player has collided with an obstacle
            if ((collidesWithBottom || collidesWithTop) && SWTimer_expired(&app_p->iFrames))
