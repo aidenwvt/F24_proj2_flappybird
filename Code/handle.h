@@ -57,7 +57,8 @@ void App_proj2_handleMenuScreen(App_proj2 *app_p, HAL *hal_p, GFX *gfx_p)
         }
         break;
     }
-    if (app_p->cursor == CURSOR_0 && Button_isTapped(&hal_p->boosterpackJS)) // If cursor is next to game and JS pressed, start game
+    // if this timer isn't expired I might get violent
+    if (app_p->cursor == CURSOR_0 && Button_isTapped(&hal_p->boosterpackJS) && SWTimer_expired(&app_p->waitTimer)) // If cursor is next to game and JS pressed, start game
     {
         GFX_clear(gfx_p);
         app_p->state = GAME_SCREEN;
@@ -158,6 +159,8 @@ void App_proj2_handleFinalScreen(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p,
     {
         GFX_clear(&hal_p->gfx);
         App_proj2_showMenuScreen(app_p, &hal_p->gfx);
+        GFX_print(gfx_p, "Obstacles resetting", 1, 2);
+        GFX_print(gfx_p, "Wait 5 seconds", 2, 2);
         calculateHighScore(app_p, hal_p);
         app_p->state = MENU_SCREEN;
         app_p->lives = LIVES;
@@ -167,14 +170,7 @@ void App_proj2_handleFinalScreen(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p,
         app_p->minY = MIN_Y;
         app_p->maxY = MAX_Y;
         app_p->reset = false;
-        int i;
-        for (i = 0; i < OBSTACLE_SIZE; i++)
-        {
-            Obstacle *currentObstacle = &app_p->obstacles[i];
-            currentObstacle->moving = false;
-            currentObstacle->xMin = -1;
-            currentObstacle->xMax = -1;
-        }
+        SWTimer_start(&app_p->waitTimer);
     }
 }
 

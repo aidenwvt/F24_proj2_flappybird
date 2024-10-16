@@ -72,7 +72,7 @@ typedef struct _Obstacles Obstacle;
 
 struct _App_proj2
 {
-    SWTimer timer, timer2, timer3, iFrames; // General-purpose timer for when screens must disappear
+    SWTimer timer, timer2, timer3, iFrames, waitTimer; // General-purpose timer for when screens must disappear
     GameState state;
     Cursor cursor;
     int highScores[3];

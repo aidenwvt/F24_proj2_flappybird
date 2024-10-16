@@ -59,6 +59,7 @@ App_proj2 App_proj2_construct(HAL *hal_p)
 {
     App_proj2 app;
     app.timer = SWTimer_construct(TITLE_SCREEN_TIMER);
+    app.waitTimer = SWTimer_construct(OBSTACLE_MOVE);
     SWTimer_start(&app.timer);
     app.state = TITLE_SCREEN;
     app.cursor = CURSOR_0;
