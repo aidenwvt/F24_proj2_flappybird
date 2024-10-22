@@ -6,6 +6,7 @@
  */
 
 #include "Code/Header/handle.h"
+#include "Code/Header/sounds.h"
 
 void App_proj2_handleTitleScreen(App_proj2 *app_p, HAL *hal_p)
 {
@@ -26,6 +27,7 @@ void App_proj2_handleMenuScreen(App_proj2 *app_p, HAL *hal_p, GFX *gfx_p)
         GFX_print(gfx_p, ">", 6, 0);
         if (Joystick_isTappedToDown(&hal_p->joystick))
         {
+            startShiftPWMTimer();
             GFX_print(gfx_p, " ", 6, 0);
             app_p->cursor = CURSOR_1;
         }
@@ -34,11 +36,13 @@ void App_proj2_handleMenuScreen(App_proj2 *app_p, HAL *hal_p, GFX *gfx_p)
         GFX_print(gfx_p, ">", 7, 0);
         if (Joystick_isTappedToDown(&hal_p->joystick))
         {
+            startShiftPWMTimer();
             GFX_print(gfx_p, " ", 7, 0);
             app_p->cursor = CURSOR_2;
         }
         else if (Joystick_isTappedToUp(&hal_p->joystick))
         {
+            startShiftPWMTimer();
             GFX_print(gfx_p, " ", 7, 0);
             app_p->cursor = CURSOR_0;
         }
@@ -47,6 +51,7 @@ void App_proj2_handleMenuScreen(App_proj2 *app_p, HAL *hal_p, GFX *gfx_p)
         GFX_print(gfx_p, ">", 8, 0);
         if (Joystick_isTappedToUp(&hal_p->joystick))
         {
+            startShiftPWMTimer();
             GFX_print(gfx_p, " ", 8, 0);
             app_p->cursor = CURSOR_1;
         }
@@ -72,6 +77,7 @@ void App_proj2_handleMenuScreen(App_proj2 *app_p, HAL *hal_p, GFX *gfx_p)
         GFX_clear(gfx_p);
         app_p->state = RESULTS_SCREEN;
     }
+    stopShiftPWMTimer();
 }
 
 // Prints the instruction screen
@@ -146,6 +152,9 @@ void App_proj2_handleFinalScreen(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p,
                                  Obstacle *obj_p)
 {
     // Print out the final screen graphics
+    if (SWTimer_expired(&app_p->dmgTimer)) {
+        stopBluePWMTimer();
+    }
     App_proj2_showFinalScreen(app_p, hal_p, obj_p);
     SWTimer_start(&app_p->waitTimer);
     if (Button_isTapped(&hal_p->boosterpackJS)) // When JS pressed, go back to menu and reset all variables needed for the game
@@ -161,13 +170,14 @@ void App_proj2_handleFinalScreen(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p,
         app_p->minY = MIN_Y;
         app_p->maxY = MAX_Y;
         app_p->reset = false;
-        obj_p->xMin = 127.0;
+/*        obj_p->xMin = 127.0;
         obj_p->xMax = 137.0;
         obj_p->yMin = 68.0;
         obj_p->yMax = 74.0;
         obj_p->yMin2 = 0;
         obj_p->yMin2 = 0;
-        obj_p->moving = false;
+        obj_p->moving = false;*/
+        stopBluePWMTimer();
     }
 }
 

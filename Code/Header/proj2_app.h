@@ -17,6 +17,7 @@
 #define OBSTACLE_MOVE 5000 // 5 seconds
 #define IFRAMES 500 // 0.5 seconds
 #define JUMP 250 // 1 second
+#define DAMAGE 50 // 0.05 seconds
 
 // Defines responsible for game logic
 #define LIVES 3
@@ -72,7 +73,7 @@ typedef struct _Obstacles Obstacle;
 
 struct _App_proj2
 {
-    SWTimer timer, timer2, timer3, iFrames, waitTimer; // General-purpose timer for when screens must disappear
+    SWTimer timer, timer2, timer3, iFrames, waitTimer, dmgTimer; // General-purpose timer for when screens must disappear
     GameState state;
     Cursor cursor;
     int highScores[3];

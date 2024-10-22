@@ -6,6 +6,7 @@
  */
 
 #include "Code/Header/logic.h"
+#include "Code/Header/sounds.h"
 
 // Function for taking an array of ints, and turns it into
 // an array of chars
@@ -215,6 +216,8 @@ void damageCheck(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
            // If collision happened, remove a life
            if ((collidesWithBottom || collidesWithTop) && SWTimer_expired(&app_p->iFrames))
            {
+               startBluePWMTimer();
+               SWTimer_start(&app_p->dmgTimer);
                SWTimer_start(&app_p->iFrames);
                GFX_setForeground(gfx_p, GRAPHICS_COLOR_BLACK);
                GFX_fillRectangle(gfx_p, 95 + (10 * (app_p->lives - 3)), 112, 100 + (10 * (app_p->lives - 3)), 117);
@@ -222,6 +225,10 @@ void damageCheck(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
                app_p->lives--;
                break;
            }
+       }
+
+       if (SWTimer_expired(&app_p->dmgTimer)) {
+           stopBluePWMTimer();
        }
 
        if (app_p->lives == 0)

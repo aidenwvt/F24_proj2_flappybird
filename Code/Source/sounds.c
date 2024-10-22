@@ -30,6 +30,23 @@ void startBluePWMTimer(void) {
     Timer_A_generatePWM(BLU_TIMER, &pwmConfig_blu);
 }
 
+void startShiftPWMTimer(void) {
+    Timer_A_PWMConfig pwmConfig_shift;
+    pwmConfig_shift.clockSource = TIMER_A_CLOCKSOURCE_SMCLK;
+    pwmConfig_shift.clockSourceDivider = TIMER_A_CLOCKSOURCE_DIVIDER_24;
+    pwmConfig_shift.compareOutputMode = TIMER_A_OUTPUTMODE_SET_RESET;
+    pwmConfig_shift.compareRegister = BLU_CHANNEL;
+    pwmConfig_shift.timerPeriod = PWM_SHIFT_CYCLES;
+    pwmConfig_shift.dutyCycle = BLU_COMPARE_CYCLES;
+
+    initPWMPins();
+    Timer_A_generatePWM(BLU_TIMER, &pwmConfig_shift);
+}
+
 void stopBluePWMTimer(void) {
+    Timer_A_stopTimer(BLU_TIMER);
+}
+
+void stopShiftPWMTimer(void) {
     Timer_A_stopTimer(BLU_TIMER);
 }

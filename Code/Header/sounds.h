@@ -11,7 +11,8 @@
 #include <HAL/HAL.h>
 #include <Code/Header/proj2_app.h>
 
-#define PWM_PERIOD_CYCLES 284
+#define PWM_PERIOD_CYCLES 327
+#define PWM_SHIFT_CYCLES 246
 
 // Duty cycle as a fraction (between 0 and 1)
 #define DUTY_CYCLE_FRACTION 0.5
@@ -34,5 +35,7 @@
 void initPWMPins(void);
 void startBluePWMTimer(void);
 void stopBluePWMTimer(void);
+void startShiftPWMTimer(void);
+void stopShiftPWMTimer(void);
 
 #endif /* CODE_SOUNDS_H_ */
