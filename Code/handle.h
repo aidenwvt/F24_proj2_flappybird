@@ -25,7 +25,6 @@ void App_proj2_handleTitleScreen(App_proj2 *app_p, HAL *hal_p)
 // 34 Lines
 void App_proj2_handleMenuScreen(App_proj2 *app_p, HAL *hal_p, GFX *gfx_p)
 {
-    static bool colorChanged = true;
     switch (app_p->cursor)
     {
     case CURSOR_0: // Cursor next to the play game option
@@ -58,17 +57,10 @@ void App_proj2_handleMenuScreen(App_proj2 *app_p, HAL *hal_p, GFX *gfx_p)
         }
         break;
     }
-    if (SWTimer_expired(&app_p->waitTimer) && !colorChanged) {
-        colorChanged = true;
-        GFX_setForeground(gfx_p, GRAPHICS_COLOR_GREEN);
-        GFX_print(gfx_p, "Play Flappy Bird", 6, 2);
-        GFX_setForeground(gfx_p, GRAPHICS_COLOR_WHITE);
-    }
     // if this timer isn't expired I might get violent
     if (app_p->cursor == CURSOR_0 && Button_isTapped(&hal_p->boosterpackJS) && SWTimer_expired(&app_p->waitTimer)) // If cursor is next to game and JS pressed, start game
     {
         GFX_clear(gfx_p);
-        colorChanged = false;
         app_p->state = GAME_SCREEN;
     }
     else if (app_p->cursor == CURSOR_1 // If cursor is next to instructions and JS pressed, go to instructions
@@ -168,8 +160,6 @@ void App_proj2_handleFinalScreen(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p,
     {
         GFX_clear(&hal_p->gfx);
         App_proj2_showMenuScreen(app_p, &hal_p->gfx);
-        GFX_print(gfx_p, "Obstacles resetting", 1, 2);
-        GFX_print(gfx_p, "Wait 5 seconds", 2, 2);
         calculateHighScore(app_p, hal_p);
         app_p->state = MENU_SCREEN;
         app_p->lives = LIVES;
@@ -179,6 +169,13 @@ void App_proj2_handleFinalScreen(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p,
         app_p->minY = MIN_Y;
         app_p->maxY = MAX_Y;
         app_p->reset = false;
+        obj_p->xMin = 127.0;
+        obj_p->xMax = 137.0;
+        obj_p->yMin = 68.0;
+        obj_p->yMax = 74.0;
+        obj_p->yMin2 = 0;
+        obj_p->yMin2 = 0;
+        obj_p->moving = false;
     }
 }
 

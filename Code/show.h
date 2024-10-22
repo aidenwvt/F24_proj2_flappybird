@@ -64,13 +64,14 @@ void App_proj2_showInstructionsScreen(App_proj2 *app_p, GFX *gfx_p)
     GFX_print(gfx_p, "INSTRUCTIONS", 0, 5);
     GFX_print(gfx_p, "---------------------", 1, 0);
     GFX_print(gfx_p, "Gain 500 points by", 2, 0);
-    GFX_print(gfx_p, "avoiding each", 3, 0);
-    GFX_print(gfx_p, "obstacle that comes", 4, 0);
-    GFX_print(gfx_p, "your way. Getting hit", 5, 0);
-    GFX_print(gfx_p, "makes you lose a", 6, 0);
-    GFX_print(gfx_p, "life.", 7, 0);
-    GFX_print(gfx_p, "Use JOYSTICK to move", 9, 0);
-    GFX_print(gfx_p, "Use BB1 to jump", 10, 0);
+    GFX_print(gfx_p, "avoiding obstacles", 3, 0);
+    GFX_print(gfx_p, "that come your way.", 4, 0);
+    GFX_print(gfx_p, "Getting hit makes you", 5, 0);
+    GFX_print(gfx_p, "lose a life.", 6, 0);
+    GFX_print(gfx_p, "Use JOYSTICK to move", 8, 0);
+    GFX_print(gfx_p, "Use BB1 to jump", 9, 0);
+    GFX_print(gfx_p, "There is a 5 second", 11, 0);
+    GFX_print(gfx_p, "delay after each game", 12, 0);
     GFX_print(gfx_p, "Press JSB to return", 14, 1);
     GFX_print(gfx_p, "to the main menu", 15, 3);
 }

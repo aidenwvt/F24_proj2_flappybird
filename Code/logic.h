@@ -150,8 +150,8 @@ void obstacleSpawner(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
             else
             {
                 GFX_setForeground(gfx_p, GRAPHICS_COLOR_BLACK);
-                GFX_fillRectangle(gfx_p, (1.19 - runTime) * 127.0, currentObstacle->yMin, (1.11 - runTime) * 127.0 + 10, currentObstacle->yMax);
-                GFX_fillRectangle(gfx_p, (1.19 - runTime) * 127.0, currentObstacle->yMin2, (1.11 - runTime) * 127.0 + 10, currentObstacle->yMax2);
+                GFX_fillRectangle(gfx_p, (1.2 - runTime) * 127.0, currentObstacle->yMin, (1.2 - runTime) * 127.0, currentObstacle->yMax);
+                GFX_fillRectangle(gfx_p, (1.2 - runTime) * 127.0, currentObstacle->yMin2, (1.2 - runTime) * 127.0, currentObstacle->yMax2);
                 GFX_setForeground(gfx_p, GRAPHICS_COLOR_WHITE);
                 GFX_fillRectangle(gfx_p, currentObstacle->xMin, currentObstacle->yMin, currentObstacle->xMax, currentObstacle->yMax);
                 GFX_fillRectangle(gfx_p, currentObstacle->xMin, currentObstacle->yMin2, currentObstacle->xMax, currentObstacle->yMax2);
