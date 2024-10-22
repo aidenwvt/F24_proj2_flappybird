@@ -170,13 +170,7 @@ void App_proj2_handleFinalScreen(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p,
         app_p->minY = MIN_Y;
         app_p->maxY = MAX_Y;
         app_p->reset = false;
-/*        obj_p->xMin = 127.0;
-        obj_p->xMax = 137.0;
-        obj_p->yMin = 68.0;
-        obj_p->yMax = 74.0;
-        obj_p->yMin2 = 0;
-        obj_p->yMin2 = 0;
-        obj_p->moving = false;*/
+        app_p->isWaiting = false;
         stopBluePWMTimer();
     }
 }

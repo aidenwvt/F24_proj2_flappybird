@@ -91,7 +91,6 @@ void obstacleSpawner(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
 {
     int continueCheck = -1;
     int i;
-    static bool wait = false;
 
     // Iterate through all the obstacles, and stop on the first one that is currently not moving
     for (i = 0; i < OBSTACLE_SIZE; i++)
@@ -104,11 +103,11 @@ void obstacleSpawner(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
     }
 
     // If the timer in charge of the delay in between objects is over, start a new timer
-    if (!wait)
+    if (!app_p->isWaiting)
     {
         app_p->timer2 = SWTimer_construct(OBSTACLE_WAIT);
         SWTimer_start(&app_p->timer2);
-        wait = true;
+        app_p->isWaiting = true;
     }
 
     // If the wait between objects is over, set up a new object and enable it
@@ -121,7 +120,7 @@ void obstacleSpawner(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
             newObstacle->obstacleTimer = SWTimer_construct(OBSTACLE_MOVE);
             newObstacle->moving = true;
             SWTimer_start(&newObstacle->obstacleTimer);
-            wait = false;
+            app_p->isWaiting = false;
         }
     }
 
@@ -207,16 +206,16 @@ void damageCheck(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
 
            bool collidesWithTop =
                (((playerXMax >= obstacle->xMin && playerXMin <= obstacle->xMax) || (playerXMax >= obstacle->xMin + 7 && playerXMin <= obstacle->xMax + 7))
-               && (playerYMin <= obstacle->yMax) && obstacle->moving == true);
+               && (playerYMin - 1 <= obstacle->yMax) && obstacle->moving == true);
 
            bool collidesWithBottom =
                (((playerXMax >= obstacle->xMin && playerXMin <= obstacle->xMax) || (playerXMax >= obstacle->xMin + 7 && playerXMin <= obstacle->xMax + 7))
-               && (playerYMax >= obstacle->yMin2) && obstacle->moving == true);
+               && (playerYMax + 1 >= obstacle->yMin2) && obstacle->moving == true);
 
            // If collision happened, remove a life
            if ((collidesWithBottom || collidesWithTop) && SWTimer_expired(&app_p->iFrames))
            {
-               startBluePWMTimer();
+               //startBluePWMTimer();
                SWTimer_start(&app_p->dmgTimer);
                SWTimer_start(&app_p->iFrames);
                GFX_setForeground(gfx_p, GRAPHICS_COLOR_BLACK);

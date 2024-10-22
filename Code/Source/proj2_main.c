@@ -73,6 +73,7 @@ App_proj2 App_proj2_construct(HAL *hal_p)
     app.minY          = MIN_Y;
     app.maxY          = MAX_Y;
     app.reset         = false;
+    app.isWaiting     = false;
     app.highScores[0] = app.highScores[1] = app.highScores[2] = 000000;
 
     // Title screen timer

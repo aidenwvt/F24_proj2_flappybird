@@ -78,7 +78,7 @@ struct _App_proj2
     Cursor cursor;
     int highScores[3];
     int lives;
-    bool reset;
+    bool reset, isWaiting;
     unsigned int score;
     char currentScore[7], highScoreOne[7], highScoreTwo[7], highScoreThree[7];
     float minX, maxX, minY, maxY;
