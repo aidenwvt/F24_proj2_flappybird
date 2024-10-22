@@ -1,15 +1,11 @@
 /*
- * handle.h
+ * handle.c
  *
- *  Created on: Sep 28, 2024
+ *  Created on: Oct 22, 2024
  *      Author: Aiden Wiehn
  */
 
-#ifndef CODE_HANDLE_H_
-#define CODE_HANDLE_H_
-
-#include <HAL/HAL.h>
-#include <Code/proj2_app.h>
+#include "Code/Header/handle.h"
 
 void App_proj2_handleTitleScreen(App_proj2 *app_p, HAL *hal_p)
 {
@@ -179,4 +175,4 @@ void App_proj2_handleFinalScreen(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p,
     }
 }
 
-#endif /* CODE_HANDLE_H_ */
+

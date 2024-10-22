@@ -7,10 +7,11 @@
 
 #include <ti/devices/msp432p4xx/driverlib/driverlib.h>
 #include <HAL/HAL.h>
-#include <Code/proj2_app.h>
-#include <Code/handle.h>
-#include <Code/logic.h>
-#include <Code/show.h>
+#include <Code/Header/proj2_app.h>
+#include <Code/Header/handle.h>
+#include <Code/Header/logic.h>
+#include <Code/Header/show.h>
+#include <Code/Header/sounds.h>
 #include <stdlib.h>
 
 // Non-blocking check. Whenever Launchpad S1 is pressed, LED1 turns on.

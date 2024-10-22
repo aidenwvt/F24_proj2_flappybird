@@ -1,16 +1,11 @@
 /*
- * logic.h
+ * logic.c
  *
- *  Created on: Sep 28, 2024
+ *  Created on: Oct 22, 2024
  *      Author: Aiden Wiehn
  */
 
-#ifndef CODE_LOGIC_H_
-#define CODE_LOGIC_H_
-
-#include <HAL/HAL.h>
-#include <Code/proj2_app.h>
-#include <stdlib.h>
+#include "Code/Header/logic.h"
 
 // Function for taking an array of ints, and turns it into
 // an array of chars
@@ -260,4 +255,3 @@ void calculateHighScore(App_proj2 *app_p, HAL *hal_p)
 }
 
 
-#endif /* CODE_LOGIC_H_ */

@@ -1,39 +1,18 @@
 /*
- * show.h
+ * show.c
  *
  *  Created on: Sep 28, 2024
  *      Author: Aiden Wiehn
  */
 
-#ifndef CODE_SHOW_H_
-#define CODE_SHOW_H_
-
-#include <HAL/HAL.h>
-#include <Code/proj2_app.h>
-
-// Defines for the lanes
-#define BORDER_LEFT 0
-#define BORDER_RIGHT 127
-#define DIVIDER_TOP 107
-#define DIVIDER_BOTTOM 20
-
-// Defines for the lives
-#define LIFE_YMIN 112
-#define LIFE_YMAX 117
-#define LIFEONE_XMIN 75
-#define LIFEONE_XMAX 80
-#define LIFETWO_XMIN 85
-#define LIFETWO_XMAX 90
-#define LIFETHREE_XMIN 95
-#define LIFETHREE_XMAX 100
+#include "Code/Header/show.h"
 
 // Graphics that show when the code gets reset
-// 19 Lines
 void App_proj2_showTitleScreen(GFX *gfx_p, App_proj2 *app_p)
 {
     static bool isRunning = false;
-    if (isRunning == false)
-    { // Print out the initial graphics once and the dinosaur
+    if (!isRunning)
+    {
         GFX_clear(gfx_p);
         GFX_print(gfx_p, "Fall 2024 Proj 2", 5, 3);
         GFX_print(gfx_p, "Flappy Bird", 6, 5);
@@ -48,7 +27,6 @@ void App_proj2_showTitleScreen(GFX *gfx_p, App_proj2 *app_p)
 }
 
 // Graphics that show after the title screen
-// 5 Lines
 void App_proj2_showMenuScreen(App_proj2 *app_p, GFX *gfx_p)
 {
     GFX_clear(gfx_p);
@@ -58,7 +36,6 @@ void App_proj2_showMenuScreen(App_proj2 *app_p, GFX *gfx_p)
 }
 
 // Graphics for the instructions screen
-// 13 Lines
 void App_proj2_showInstructionsScreen(App_proj2 *app_p, GFX *gfx_p)
 {
     GFX_print(gfx_p, "INSTRUCTIONS", 0, 5);
@@ -77,7 +54,6 @@ void App_proj2_showInstructionsScreen(App_proj2 *app_p, GFX *gfx_p)
 }
 
 // Graphics for the lines, lives, and score for the game
-// 10 Lines
 void App_proj2_showGameScreen(App_proj2 *app_p, GFX *gfx_p)
 {
     GFX_print(gfx_p, "Score", 1, 5);
@@ -93,7 +69,6 @@ void App_proj2_showGameScreen(App_proj2 *app_p, GFX *gfx_p)
 }
 
 // Graphics for the high score screen
-// 10 Lines
 void App_proj2_showResultScreen(App_proj2 *app_p, GFX *gfx_p)
 {
     GFX_print(gfx_p, "HIGH SCORES", 0, 5);
@@ -108,7 +83,6 @@ void App_proj2_showResultScreen(App_proj2 *app_p, GFX *gfx_p)
 }
 
 // Graphics that show when all lives are lost in the game
-// 6 Lines
 void App_proj2_showFinalScreen(App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
 {
     GFX_print(&hal_p->gfx, "GAME OVER", 1, 6);
@@ -117,5 +91,3 @@ void App_proj2_showFinalScreen(App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
     GFX_print(&hal_p->gfx, "Press JSB to return", 14, 1);
     GFX_print(&hal_p->gfx, "to the main menu", 15, 3);
 }
-
-#endif /* CODE_SHOW_H_ */
