@@ -21,7 +21,7 @@
 // Defines responsible for game logic
 #define LIVES 3
 #define SCORE 000000
-#define OBSTACLE_SIZE 6
+#define OBSTACLE_SIZE 4
 
 // Defines for position of the player
 #define MIN_X 10.0

@@ -38,8 +38,13 @@ void App_proj2_showTitleScreen(GFX *gfx_p, App_proj2 *app_p)
         GFX_print(gfx_p, "Fall 2024 Proj 2", 5, 3);
         GFX_print(gfx_p, "Flappy Bird", 6, 5);
         GFX_print(gfx_p, "Aiden Wiehn", 7, 5);
+        app_p->timer3 = SWTimer_construct(3000);
+        SWTimer_start(&app_p->timer3);
+        GFX_drawRectangle(gfx_p, 25, 80, 105, 90);
         isRunning = true;
     }
+    double percentElapsed = SWTimer_percentElapsed(&app_p->timer3);
+    GFX_fillRectangle(gfx_p, 25, 80, 25 + (108 - 25) * percentElapsed, 90);
 }
 
 // Graphics that show after the title screen

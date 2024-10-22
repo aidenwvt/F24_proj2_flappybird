@@ -58,19 +58,23 @@ int main(void)
 App_proj2 App_proj2_construct(HAL *hal_p)
 {
     App_proj2 app;
-    app.timer = SWTimer_construct(TITLE_SCREEN_TIMER);
-    app.waitTimer = SWTimer_construct(OBSTACLE_MOVE);
-    SWTimer_start(&app.timer);
-    app.state = TITLE_SCREEN;
-    app.cursor = CURSOR_0;
-    app.lives = LIVES;
-    app.score = SCORE;
-    app.minX = MIN_X;
-    app.maxX = MAX_X;
-    app.minY = MIN_Y;
-    app.maxY = MAX_Y;
-    app.reset = false;
+
+    app.timer         = SWTimer_construct(TITLE_SCREEN_TIMER);
+    app.waitTimer     = SWTimer_construct(OBSTACLE_MOVE);
+    app.iFrames       = SWTimer_construct(IFRAMES);
+    app.state         = TITLE_SCREEN;
+    app.cursor        = CURSOR_0;
+    app.lives         = LIVES;
+    app.score         = SCORE;
+    app.minX          = MIN_X;
+    app.maxX          = MAX_X;
+    app.minY          = MIN_Y;
+    app.maxY          = MAX_Y;
+    app.reset         = false;
     app.highScores[0] = app.highScores[1] = app.highScores[2] = 000000;
+
+    SWTimer_start(&app.timer);
+
     int i;
     for (i = 0; i < 7; i++)
     {
@@ -79,6 +83,7 @@ App_proj2 App_proj2_construct(HAL *hal_p)
     }
     app.currentScore[6] = app.highScoreOne[6] = app.highScoreTwo[6] =
             app.highScoreThree[6] = '\0';
+
     return app;
 }
 

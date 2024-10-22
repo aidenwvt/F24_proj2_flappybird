@@ -59,8 +59,18 @@ void moveSquare(GFX *gfx_p, HAL *hal_p, App_proj2 *app_p)
        timerStarted = true;
        }
        if (app_p->minY > 22) {
-       app_p->minY = app_p->minY - 0.75;
-       app_p->maxY = app_p->maxY - 0.75;
+           if (Joystick_isPressedToUp(&hal_p->joystick)) {
+               app_p->minY = app_p->minY - 1.25;
+               app_p->maxY = app_p->maxY - 1.25;
+           }
+           else if (Joystick_isPressedToDown(&hal_p->joystick)) {
+               app_p->minY = app_p->minY - 0.5;
+               app_p->maxY = app_p->maxY - 0.5;
+           }
+           else {
+               app_p->minY = app_p->minY - 0.75;
+               app_p->maxY = app_p->maxY - 0.75;
+           }
        }
     }
     else {
@@ -129,7 +139,7 @@ void obstacleSpawner(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
                     &currentObstacle->obstacleTimer);
             runTime = runTime * 1.35;
             currentObstacle->xMin = (1.1 - runTime) * 127.0;
-            currentObstacle->xMax = (1.1 - runTime) * 127.0;
+            currentObstacle->xMax = (1.1 - runTime) * 127.0 + 5;
             // If off screen, disable the obstacle and add +500 points
             if (currentObstacle->xMax < -13)
             {
@@ -140,21 +150,11 @@ void obstacleSpawner(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
             else
             {
                 GFX_setForeground(gfx_p, GRAPHICS_COLOR_BLACK);
-                GFX_fillRectangle(gfx_p, (1.19 - runTime) * 127.0,
-                                  currentObstacle->yMin,
-                                  (1.11 - runTime) * 127.0 + 10,
-                                  currentObstacle->yMax);
-                GFX_fillRectangle(gfx_p, (1.19 - runTime) * 127.0,
-                                  currentObstacle->yMin2,
-                                  (1.11 - runTime) * 127.0 + 10,
-                                  currentObstacle->yMax2);
+                GFX_fillRectangle(gfx_p, (1.19 - runTime) * 127.0, currentObstacle->yMin, (1.11 - runTime) * 127.0 + 10, currentObstacle->yMax);
+                GFX_fillRectangle(gfx_p, (1.19 - runTime) * 127.0, currentObstacle->yMin2, (1.11 - runTime) * 127.0 + 10, currentObstacle->yMax2);
                 GFX_setForeground(gfx_p, GRAPHICS_COLOR_WHITE);
-                GFX_fillRectangle(gfx_p, currentObstacle->xMin,
-                                  currentObstacle->yMin, currentObstacle->xMax,
-                                  currentObstacle->yMax);
-                GFX_fillRectangle(gfx_p, currentObstacle->xMin,
-                                  currentObstacle->yMin2, currentObstacle->xMax,
-                                  currentObstacle->yMax2);
+                GFX_fillRectangle(gfx_p, currentObstacle->xMin, currentObstacle->yMin, currentObstacle->xMax, currentObstacle->yMax);
+                GFX_fillRectangle(gfx_p, currentObstacle->xMin, currentObstacle->yMin2, currentObstacle->xMax, currentObstacle->yMax2);
             }
         }
     }
@@ -188,8 +188,8 @@ void obstacleTypeVal(App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p, int i)
     newObstacle->yMax2 = 106.0;
 
     // Set the horizontal position for both obstacles (they move together)
-    newObstacle->xMin = MAX_X;         // Start from the rightmost part of the screen
-    newObstacle->xMax = MAX_X + 5.0;   // Define the width of the obstacles
+    newObstacle->xMin = 129;         // Start from the rightmost part of the screen
+    newObstacle->xMax = 134;   // Define the width of the obstacles
 
     // Initialize the obstacle movement and timer logic
     newObstacle->moving = true;
@@ -198,43 +198,32 @@ void obstacleTypeVal(App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p, int i)
 // Checks if the player has taken damage
 void damageCheck(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
 {
-    // Define player’s bounding box
        double playerXMin = app_p->minX;
        double playerXMax = app_p->maxX;
        double playerYMin = app_p->minY;
        double playerYMax = app_p->maxY;
        int i;
 
-       // Iterate through each obstacle in the array
        for (i = 0; i < OBSTACLE_SIZE; i++)
        {
            Obstacle *obstacle = &app_p->obstacles[i];
 
-           // Check if player collides with the bottom pipe
-           // The below code is held together with hopes and dreams
-           bool collidesWithBottom =
-               ((playerXMax >= obstacle->xMin + 12 && playerXMin <= obstacle->xMax + 12) &&  // Overlapping on the X-axis
-               (playerYMax >= obstacle->yMin && playerYMin <= obstacle->yMax)) ||
-               ((playerXMax >= obstacle->xMin && playerXMin <= obstacle->xMax) &&  // Overlapping on the X-axis
-               (playerYMax >= obstacle->yMin && playerYMin <= obstacle->yMax)) ;    // Overlapping on the Y-axis (bottom pipe)
-
-           // Check if player collides with the top pipe
            bool collidesWithTop =
-               ((playerXMax >= obstacle->xMin + 12 && playerXMin <= obstacle->xMax + 12) &&  // Overlapping on the X-axis
-               (playerYMax >= obstacle->yMin2 && playerYMin <= obstacle->yMax2)) ||
-               ((playerXMax >= obstacle->xMin && playerXMin <= obstacle->xMax) &&  // Overlapping on the X-axis
-               (playerYMax >= obstacle->yMin2 && playerYMin <= obstacle->yMax2));  // Overlapping on the Y-axis (top pipe)
+               ((playerXMax >= obstacle->xMin && playerXMin <= obstacle->xMax) || (playerXMax >= obstacle->xMin + 7 && playerXMin <= obstacle->xMax + 7))
+               && (playerYMin <= obstacle->yMax);
 
-           // If either collision is true, the player has collided with an obstacle
+           bool collidesWithBottom =
+               ((playerXMax >= obstacle->xMin && playerXMin <= obstacle->xMax) || (playerXMax >= obstacle->xMin + 7 && playerXMin <= obstacle->xMax + 7))
+               && (playerYMax >= obstacle->yMin2);
+
            if ((collidesWithBottom || collidesWithTop) && SWTimer_expired(&app_p->iFrames))
            {
-               app_p->iFrames = SWTimer_construct(IFRAMES);
                SWTimer_start(&app_p->iFrames);
                GFX_setForeground(gfx_p, GRAPHICS_COLOR_BLACK);
                GFX_fillRectangle(gfx_p, 95 + (10 * (app_p->lives - 3)), 112, 100 + (10 * (app_p->lives - 3)), 117);
                GFX_setForeground(gfx_p, GRAPHICS_COLOR_WHITE);
                app_p->lives--;
-               break; // Exit the loop after detecting collision with one obstacle
+               break;
            }
        }
 
