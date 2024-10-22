@@ -21,7 +21,7 @@
 // Defines responsible for game logic
 #define LIVES 3
 #define SCORE 000000
-#define OBSTACLE_SIZE 4
+#define OBSTACLE_SIZE 3
 
 // Defines for position of the player
 #define MIN_X 10.0
@@ -87,7 +87,7 @@ typedef struct _App_proj2 App_proj2;
 
 // Boilerplate constructor function for the Application
 App_proj2 App_proj2_construct(HAL *hal_p);
-Obstacle App_obstacle_construct(HAL *hal_p);
+Obstacle App_obstacle_construct(HAL *hal_p, App_proj2 *app_p);
 void App_proj2_loop(App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p);
 
 void App_proj2_handleTitleScreen(App_proj2 *app, HAL *hal_p);

@@ -41,17 +41,17 @@ int main(void)
     InitSystemTiming();
     InitNonBlockingLED();
 
-    // Initialize the main Application object and the HAL.
+    // Initialize the main Application object, Obstacle object, and the HAL.
     HAL hal = HAL_construct();
     App_proj2 app = App_proj2_construct(&hal);
-    Obstacle obj = App_obstacle_construct(&hal);
+    Obstacle obj = App_obstacle_construct(&hal, &app);
 
     // Main super-loop! In a polling architecture, this function should call
     // your main FSM function over and over.
     while (true)
     {
         PollNonBlockingLED();
-        App_proj2_loop(&app, &hal, &obj); //update my program, application state, output
+        App_proj2_loop(&app, &hal, &obj); // Updating program
         HAL_refresh(&hal); // check the inputs
     }
 }
@@ -74,8 +74,10 @@ App_proj2 App_proj2_construct(HAL *hal_p)
     app.reset         = false;
     app.highScores[0] = app.highScores[1] = app.highScores[2] = 000000;
 
+    // Title screen timer
     SWTimer_start(&app.timer);
 
+    // Setting all high scores to 0
     int i;
     for (i = 0; i < 7; i++)
     {
@@ -89,15 +91,15 @@ App_proj2 App_proj2_construct(HAL *hal_p)
 }
 
 // Initializing all obstacle variables here
-Obstacle App_obstacle_construct(HAL *hal_p)
+Obstacle App_obstacle_construct(HAL *hal_p, App_proj2 *app_p)
 {
     Obstacle obj;
     obj.xMin = 127.0;
     obj.xMax = 137.0;
-    obj.yMin = 68.0;
-    obj.yMax = 74.0;
-    obj.yMin2 = 0;
-    obj.yMin2 = 0;
+    obj.yMin = 127.0;
+    obj.yMax = 127.0;
+    obj.yMin2 = 127.0;
+    obj.yMax2 = 127.0;
     obj.moving = false;
     return obj;
 }

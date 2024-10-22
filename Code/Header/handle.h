@@ -11,6 +11,8 @@
 #include <HAL/HAL.h>
 #include <Code/Header/proj2_app.h>
 
+// These methods are in charge of all the logic, which functions to call etc.
+// For each respective screen in the game
 void App_proj2_handleTitleScreen(App_proj2 *app_p, HAL *hal_p);
 void App_proj2_handleMenuScreen(App_proj2 *app_p, HAL *hal_p, GFX *gfx_p);
 void App_proj2_handleInstructionsScreen(App_proj2 *app_p, HAL *hal_p);

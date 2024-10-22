@@ -11,7 +11,7 @@
 #include <HAL/HAL.h>
 #include <Code/Header/proj2_app.h>
 
-// Defines for the lanes
+// Defines for the borders and edge of screen
 #define BORDER_LEFT 0
 #define BORDER_RIGHT 127
 #define DIVIDER_TOP 107

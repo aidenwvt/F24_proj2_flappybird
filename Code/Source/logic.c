@@ -9,7 +9,6 @@
 
 // Function for taking an array of ints, and turns it into
 // an array of chars
-// 7 Lines
 void make_6digit_NumString(unsigned int num, char *string)
 {
     string[0] = (num / 100000) % 10 + '0';
@@ -22,7 +21,6 @@ void make_6digit_NumString(unsigned int num, char *string)
 
 // Function responsible for moving the square in both the X and Y directions
 // Also responsible for the jumping logic
-// 34 Lines
 void moveSquare(GFX *gfx_p, HAL *hal_p, App_proj2 *app_p)
 {
     static bool timerStarted = false;
@@ -45,14 +43,16 @@ void moveSquare(GFX *gfx_p, HAL *hal_p, App_proj2 *app_p)
         app_p->maxX -= (0.9 / 5000) * (5000 - x2) + 0.1;
     }
 
-    // If BB1 is pressed, begin making the player jump, and lock the player from switching lanes
+    // If BB1 is pressed OR we are currently jumping, make the player jump
     if (Button_isTapped(&hal_p->boosterpackS1) || !SWTimer_expired(&app_p->timer))
     {
+        // Can only jump if we aren't currently jumping (aka timer isn't started)
        if (timerStarted == false) {
        app_p->timer = SWTimer_construct(JUMP);
        SWTimer_start(&app_p->timer);
        timerStarted = true;
        }
+       // Y position logic for jumping
        if (app_p->minY > 22) {
            if (Joystick_isPressedToUp(&hal_p->joystick)) {
                app_p->minY = app_p->minY - 1.25;
@@ -68,6 +68,7 @@ void moveSquare(GFX *gfx_p, HAL *hal_p, App_proj2 *app_p)
            }
        }
     }
+    // If we aren't jumping, fall down
     else {
         if (timerStarted == true) {
             timerStarted = false;
@@ -91,7 +92,7 @@ void obstacleSpawner(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
     int i;
     static bool wait = false;
 
-    // Iterate through all the obstacles, and stop on the first one that is current not moving
+    // Iterate through all the obstacles, and stop on the first one that is currently not moving
     for (i = 0; i < OBSTACLE_SIZE; i++)
     {
         if (!app_p->obstacles[i].moving)
@@ -130,6 +131,7 @@ void obstacleSpawner(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
         // If currently active, run all of this, if not, immediately move to the next object
         if (currentObstacle->moving)
         {
+            // Update x position and draw over it if not out of the screen
             double runTime = SWTimer_percentElapsed(
                     &currentObstacle->obstacleTimer);
             runTime = runTime * 1.35;
@@ -166,13 +168,12 @@ void obstacleTypeVal(App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p, int i)
 {
     Obstacle *newObstacle = &app_p->obstacles[i];
 
-    // Define the gap size and the bounds for random gap position
     double gapHeight = 30.0; // Fixed gap size between the pipes
-    double minGapY = 20.0;   // The minimum allowed y position (lower bound)
-    double maxGapY = 107.0 - gapHeight; // The maximum allowed y position for the top of the gap
+    double minGapY = 20.0;   // The lowest possible y position for the obstacle
+    double maxGapY = 107.0 - gapHeight; // The largest possible y position for the obstacle
 
     // Randomize the vertical position of the gap
-    double randomGapY = minGapY + (rand() / (double)RAND_MAX) * (maxGapY - minGapY); // Random position between 20 and 87 (since gapHeight is 20)
+    double randomGapY = minGapY + (rand() / (double)RAND_MAX) * (maxGapY - minGapY);
 
     // Set the bottom pipe's y values (lower obstacle)
     newObstacle->yMin = 21.0;
@@ -183,10 +184,10 @@ void obstacleTypeVal(App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p, int i)
     newObstacle->yMax2 = 106.0;
 
     // Set the horizontal position for both obstacles (they move together)
-    newObstacle->xMin = 129;         // Start from the rightmost part of the screen
-    newObstacle->xMax = 134;   // Define the width of the obstacles
+    newObstacle->xMin = 129;
+    newObstacle->xMax = 134;
 
-    // Initialize the obstacle movement and timer logic
+    // Initialize the obstacle movement
     newObstacle->moving = true;
 }
 
@@ -204,13 +205,14 @@ void damageCheck(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
            Obstacle *obstacle = &app_p->obstacles[i];
 
            bool collidesWithTop =
-               ((playerXMax >= obstacle->xMin && playerXMin <= obstacle->xMax) || (playerXMax >= obstacle->xMin + 7 && playerXMin <= obstacle->xMax + 7))
-               && (playerYMin <= obstacle->yMax);
+               (((playerXMax >= obstacle->xMin && playerXMin <= obstacle->xMax) || (playerXMax >= obstacle->xMin + 7 && playerXMin <= obstacle->xMax + 7))
+               && (playerYMin <= obstacle->yMax) && obstacle->moving == true);
 
            bool collidesWithBottom =
-               ((playerXMax >= obstacle->xMin && playerXMin <= obstacle->xMax) || (playerXMax >= obstacle->xMin + 7 && playerXMin <= obstacle->xMax + 7))
-               && (playerYMax >= obstacle->yMin2);
+               (((playerXMax >= obstacle->xMin && playerXMin <= obstacle->xMax) || (playerXMax >= obstacle->xMin + 7 && playerXMin <= obstacle->xMax + 7))
+               && (playerYMax >= obstacle->yMin2) && obstacle->moving == true);
 
+           // If collision happened, remove a life
            if ((collidesWithBottom || collidesWithTop) && SWTimer_expired(&app_p->iFrames))
            {
                SWTimer_start(&app_p->iFrames);

@@ -18,7 +18,6 @@ void App_proj2_handleTitleScreen(App_proj2 *app_p, HAL *hal_p)
 }
 
 // Controls the menu logic, cursor, and navigating the menu
-// 34 Lines
 void App_proj2_handleMenuScreen(App_proj2 *app_p, HAL *hal_p, GFX *gfx_p)
 {
     switch (app_p->cursor)
@@ -54,6 +53,8 @@ void App_proj2_handleMenuScreen(App_proj2 *app_p, HAL *hal_p, GFX *gfx_p)
         break;
     }
     // if this timer isn't expired I might get violent
+    // This timer is used to ensure the obstacles from the previous game are expired
+    // Only starts running after a game is finished
     if (app_p->cursor == CURSOR_0 && Button_isTapped(&hal_p->boosterpackJS) && SWTimer_expired(&app_p->waitTimer)) // If cursor is next to game and JS pressed, start game
     {
         GFX_clear(gfx_p);
@@ -74,7 +75,6 @@ void App_proj2_handleMenuScreen(App_proj2 *app_p, HAL *hal_p, GFX *gfx_p)
 }
 
 // Prints the instruction screen
-// 10 Lines
 void App_proj2_handleInstructionsScreen(App_proj2 *app_p, HAL *hal_p)
 {
     static bool isShown = false;
@@ -93,7 +93,6 @@ void App_proj2_handleInstructionsScreen(App_proj2 *app_p, HAL *hal_p)
 }
 
 // Function responsible for all the game logic
-// 12 Lines
 void App_proj2_handleGameScreen(App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
 {
     static bool isShown = false;
@@ -124,7 +123,6 @@ void App_proj2_handleGameScreen(App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
 }
 
 // Prints the result screen
-// 10 Lines
 void App_proj2_handleResultScreen(App_proj2 *app_p, HAL *hal_p)
 {
     static bool isShown = false;
@@ -144,11 +142,9 @@ void App_proj2_handleResultScreen(App_proj2 *app_p, HAL *hal_p)
 
 // When all lives are lost, show the final screen, and when
 // the JS is pressed, go back to the menu and reset all variables
-// 14 Lines
 void App_proj2_handleFinalScreen(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p,
                                  Obstacle *obj_p)
 {
-
     // Print out the final screen graphics
     App_proj2_showFinalScreen(app_p, hal_p, obj_p);
     SWTimer_start(&app_p->waitTimer);

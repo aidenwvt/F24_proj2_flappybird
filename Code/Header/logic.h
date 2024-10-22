@@ -12,6 +12,7 @@
 #include <Code/Header/proj2_app.h>
 #include <stdlib.h>
 
+// Methods in charge of all the game logic (spawning obstacles, moving players, etc)
 void make_6digit_NumString(unsigned int num, char *string);
 void moveSquare(GFX *gfx_p, HAL *hal_p, App_proj2 *app_p);
 void obstacleSpawner(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p);
