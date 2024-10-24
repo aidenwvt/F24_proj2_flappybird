@@ -11,7 +11,7 @@
 void App_proj2_handleTitleScreen(App_proj2 *app_p, HAL *hal_p)
 {
     App_proj2_showTitleScreen(&hal_p->gfx, app_p);
-    if (SWTimer_expired(&app_p->timer)) // When the timer expires, go to the menu screen
+    if (SWTimer_expired(&app_p->miscTimer)) // When the timer expires, go to the menu screen
     {
         app_p->state = MENU_SCREEN;
         App_proj2_showMenuScreen(app_p, &hal_p->gfx);
@@ -57,7 +57,6 @@ void App_proj2_handleMenuScreen(App_proj2 *app_p, HAL *hal_p, GFX *gfx_p)
         }
         break;
     }
-    // if this timer isn't expired I might get violent
     // This timer is used to ensure the obstacles from the previous game are expired
     // Only starts running after a game is finished
     if (app_p->cursor == CURSOR_0 && Button_isTapped(&hal_p->boosterpackJS) && SWTimer_expired(&app_p->waitTimer)) // If cursor is next to game and JS pressed, start game
@@ -71,7 +70,7 @@ void App_proj2_handleMenuScreen(App_proj2 *app_p, HAL *hal_p, GFX *gfx_p)
         GFX_clear(gfx_p);
         app_p->state = INSTRUCTIONS_SCREEN;
     }
-    else if (app_p->cursor == CURSOR_2 // If cursor is next to highs cores and JS pressed, go to high scores
+    else if (app_p->cursor == CURSOR_2 // If cursor is next to high scores and JS pressed, go to high scores
     && Button_isTapped(&hal_p->boosterpackJS))
     {
         GFX_clear(gfx_p);

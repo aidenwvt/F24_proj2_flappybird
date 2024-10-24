@@ -15,6 +15,7 @@
 #define TITLE_SCREEN_TIMER 3000
 #define OBSTACLE_WAIT 2000 // 2 seconds
 #define OBSTACLE_MOVE 5000 // 5 seconds
+#define UART_TIMER 1000
 #define IFRAMES 500 // 0.5 seconds
 #define JUMP 250 // 1 second
 #define DAMAGE 50 // 0.05 seconds
@@ -38,6 +39,8 @@
  * passed around to basically every other function. Holds state variables
  * which YOU define as part of your application's state.
  */
+
+// Struct containing all the FSM states
 enum _GameState
 {
     TITLE_SCREEN,
@@ -49,6 +52,7 @@ enum _GameState
 };
 typedef enum _GameState GameState;
 
+// Struct for cursor positions
 enum _Cursor
 {
     CURSOR_0,
@@ -58,6 +62,7 @@ enum _Cursor
 
 typedef enum _Cursor Cursor;
 
+// Struct that contains all the information about an obstacle
 struct _Obstacles
 {
     double xMin;
@@ -71,9 +76,10 @@ struct _Obstacles
 };
 typedef struct _Obstacles Obstacle;
 
+// Application struct
 struct _App_proj2
 {
-    SWTimer timer, timer2, timer3, iFrames, waitTimer, dmgTimer; // General-purpose timer for when screens must disappear
+    SWTimer miscTimer, obstacleWait, titleTimer, iFrames, waitTimer, dmgTimer; // General-purpose timer for when screens must disappear
     GameState state;
     Cursor cursor;
     int highScores[3];
@@ -91,6 +97,7 @@ App_proj2 App_proj2_construct(HAL *hal_p);
 Obstacle App_obstacle_construct(HAL *hal_p, App_proj2 *app_p);
 void App_proj2_loop(App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p);
 
+// Helper functions which help branch to the methods below
 void App_proj2_handleTitleScreen(App_proj2 *app, HAL *hal_p);
 void App_proj2_handleMenuScreen(App_proj2 *app, HAL *hal_p, GFX *gfx_p);
 void App_proj2_handleInstructionsScreen(App_proj2 *app, HAL *hal_p);

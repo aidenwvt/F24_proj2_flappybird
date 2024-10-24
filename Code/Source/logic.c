@@ -45,12 +45,12 @@ void moveSquare(GFX *gfx_p, HAL *hal_p, App_proj2 *app_p)
     }
 
     // If BB1 is pressed OR we are currently jumping, make the player jump
-    if (Button_isTapped(&hal_p->boosterpackS1) || !SWTimer_expired(&app_p->timer))
+    if (Button_isTapped(&hal_p->boosterpackS1) || !SWTimer_expired(&app_p->miscTimer))
     {
         // Can only jump if we aren't currently jumping (aka timer isn't started)
        if (timerStarted == false) {
-       app_p->timer = SWTimer_construct(JUMP);
-       SWTimer_start(&app_p->timer);
+       app_p->miscTimer = SWTimer_construct(JUMP);
+       SWTimer_start(&app_p->miscTimer);
        timerStarted = true;
        }
        // Y position logic for jumping
@@ -105,13 +105,12 @@ void obstacleSpawner(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
     // If the timer in charge of the delay in between objects is over, start a new timer
     if (!app_p->isWaiting)
     {
-        app_p->timer2 = SWTimer_construct(OBSTACLE_WAIT);
-        SWTimer_start(&app_p->timer2);
+        SWTimer_start(&app_p->obstacleWait);
         app_p->isWaiting = true;
     }
 
     // If the wait between objects is over, set up a new object and enable it
-    if (continueCheck != -1 && SWTimer_expired(&app_p->timer2))
+    if (continueCheck != -1 && SWTimer_expired(&app_p->obstacleWait))
     {
         for (i = 0; i < OBSTACLE_SIZE; i++)
         {
@@ -169,21 +168,21 @@ void obstacleTypeVal(App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p, int i)
     Obstacle *newObstacle = &app_p->obstacles[i];
 
     double gapHeight = 30.0; // Fixed gap size between the pipes
-    double minGapY = 20.0;   // The lowest possible y position for the obstacle
-    double maxGapY = 107.0 - gapHeight; // The largest possible y position for the obstacle
+    double minGapY = 20.0;   // The lowest possible y position for the obstacle (top border)
+    double maxGapY = 107.0 - gapHeight; // The largest possible y position for the obstacle (bottom border)
 
     // Randomize the vertical position of the gap
     double randomGapY = minGapY + (rand() / (double)RAND_MAX) * (maxGapY - minGapY);
 
-    // Set the bottom pipe's y values (lower obstacle)
+    // Set the top pipe's values
     newObstacle->yMin = 21.0;
     newObstacle->yMax = randomGapY;
 
-    // Set the top pipe's y values (upper obstacle)
+    // Set the bottom pipe's values
     newObstacle->yMin2 = randomGapY + gapHeight;
     newObstacle->yMax2 = 106.0;
 
-    // Set the horizontal position for both obstacles (they move together)
+    // Set the horizontal position for both obstacles (start off the screen)
     newObstacle->xMin = 129;
     newObstacle->xMax = 134;
 
@@ -215,7 +214,7 @@ void damageCheck(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
            // If collision happened, remove a life
            if ((collidesWithBottom || collidesWithTop) && SWTimer_expired(&app_p->iFrames))
            {
-               //startBluePWMTimer();
+               startBluePWMTimer();
                SWTimer_start(&app_p->dmgTimer);
                SWTimer_start(&app_p->iFrames);
                GFX_setForeground(gfx_p, GRAPHICS_COLOR_BLACK);
@@ -261,5 +260,3 @@ void calculateHighScore(App_proj2 *app_p, HAL *hal_p)
     make_6digit_NumString(app_p->highScores[1], app_p->highScoreTwo);
     make_6digit_NumString(app_p->highScores[2], app_p->highScoreThree);
 }
-
-

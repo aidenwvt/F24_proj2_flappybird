@@ -56,13 +56,24 @@ int main(void)
     }
 }
 
+//  Construct all application variables
 App_proj2 App_proj2_construct(HAL *hal_p)
 {
     App_proj2 app;
 
-    app.timer         = SWTimer_construct(TITLE_SCREEN_TIMER);
+    // Timer used for short, temporary applications
+    app.miscTimer     = SWTimer_construct(TITLE_SCREEN_TIMER);
+
+    // Timer that keeps track of time in between obstacles
+    app.obstacleWait  = SWTimer_construct(OBSTACLE_WAIT);
+
+    // Timer responsible for moving obstacles from one side to another
     app.waitTimer     = SWTimer_construct(OBSTACLE_MOVE);
+
+    // Timer for time in between damage
     app.iFrames       = SWTimer_construct(IFRAMES);
+
+    // Timer responsible for the length of audio played
     app.dmgTimer      = SWTimer_construct(DAMAGE);
     app.state         = TITLE_SCREEN;
     app.cursor        = CURSOR_0;
@@ -76,10 +87,10 @@ App_proj2 App_proj2_construct(HAL *hal_p)
     app.isWaiting     = false;
     app.highScores[0] = app.highScores[1] = app.highScores[2] = 000000;
 
-    // Title screen timer
-    SWTimer_start(&app.timer);
+    // Start title screen timer
+    SWTimer_start(&app.miscTimer);
 
-    // Setting all high scores to 0
+    // Setting all high scores to 0 (this could be better but if it aint broke)
     int i;
     for (i = 0; i < 7; i++)
     {
