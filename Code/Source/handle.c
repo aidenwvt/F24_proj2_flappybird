@@ -6,6 +6,8 @@
  */
 
 #include "Code/Header/handle.h"
+#include "Code/Header/show.h"
+#include "Code/Header/logic.h"
 #include "Code/Header/sounds.h"
 
 void App_proj2_handleTitleScreen(App_proj2 *app_p, HAL *hal_p)

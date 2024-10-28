@@ -54,14 +54,16 @@ void moveSquare(GFX *gfx_p, HAL *hal_p, App_proj2 *app_p)
        timerStarted = true;
        }
        // Y position logic for jumping
-       if (app_p->minY > 22) {
+       if (app_p->minY > 22.5) {
            if (Joystick_isPressedToUp(&hal_p->joystick)) {
-               app_p->minY = app_p->minY - 1.25;
-               app_p->maxY = app_p->maxY - 1.25;
+/*               app_p->minY = app_p->minY - 1.25;
+               app_p->maxY = app_p->maxY - 1.25;*/
+               app_p->minY -= (0.9 / 6000) * (return_Joystick_Y(&hal_p->joystick) - 12000) + 0.75;
+               app_p->maxY -= (0.9 / 6000) * (return_Joystick_Y(&hal_p->joystick) - 12000) + 0.75;
            }
            else if (Joystick_isPressedToDown(&hal_p->joystick)) {
-               app_p->minY = app_p->minY - 0.5;
-               app_p->maxY = app_p->maxY - 0.5;
+               app_p->minY -= (0.9 / 6000) * (1 / (3000 - return_Joystick_Y(&hal_p->joystick))) + 0.5;
+               app_p->maxY -= (0.9 / 6000) * (1 / (3000 - return_Joystick_Y(&hal_p->joystick))) + 0.5;
            }
            else {
                app_p->minY = app_p->minY - 0.75;
@@ -103,6 +105,8 @@ void obstacleSpawner(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
     }
 
     // If the timer in charge of the delay in between objects is over, start a new timer
+    // isWaiting was originally a static here, but I thought changing it to an app variable would
+    // Fix the bug (news flash, it did not :()
     if (!app_p->isWaiting)
     {
         SWTimer_start(&app_p->obstacleWait);

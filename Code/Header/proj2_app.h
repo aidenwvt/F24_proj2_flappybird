@@ -97,30 +97,4 @@ App_proj2 App_proj2_construct(HAL *hal_p);
 Obstacle App_obstacle_construct(HAL *hal_p, App_proj2 *app_p);
 void App_proj2_loop(App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p);
 
-// Helper functions which help branch to the methods below
-void App_proj2_handleTitleScreen(App_proj2 *app, HAL *hal_p);
-void App_proj2_handleMenuScreen(App_proj2 *app, HAL *hal_p, GFX *gfx_p);
-void App_proj2_handleInstructionsScreen(App_proj2 *app, HAL *hal_p);
-void App_proj2_handleGameScreen(App_proj2 *app, HAL *hal_p, Obstacle *obj_p);
-void App_proj2_handleResultScreen(App_proj2 *app, HAL *hal_p);
-void App_proj2_handleFinalScreen(GFX *gfx_p, App_proj2 *app, HAL *hal_p, Obstacle *obj_p);
-
-// Helper functions which clear the screen and draw the text for each state
-void App_proj2_showTitleScreen(GFX *gfx_p, App_proj2 *app_p);
-void App_proj2_showMenuScreen(App_proj2 *app_p, GFX *gfx_p);
-void App_proj2_showInstructionsScreen(App_proj2 *app_p, GFX *gfx_p);
-void App_proj2_showGameScreen(App_proj2 *app_p, GFX *gfx_p);
-void App_proj2_showResultScreen(App_proj2 *app_p, GFX *gfx_p);
-void App_proj2_showFinalScreen(App_proj2 *app, HAL *hal_p, Obstacle *obj_p);
-
-// Game logic functions
-void moveSquare(GFX *gfx_p, HAL *hal_p, App_proj2 *app_p);
-void obstacleSpawner(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p);
-void obstacleTypeVal(App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p, int i);
-void damageCheck(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p);
-
-// Misc functions
-void make_6digit_NumString(unsigned int num, char *string);
-void calculateHighScore(App_proj2 *app_p, HAL *hal_p);
-
 #endif /* PROJ2_APP_H_ */
