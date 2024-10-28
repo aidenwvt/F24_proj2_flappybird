@@ -14,7 +14,11 @@
 // All definitions responsible for timers
 #define TITLE_SCREEN_TIMER 3000
 #define OBSTACLE_WAIT 2000 // 2 seconds
+#define OBSTACLE_WAIT2 1750 // 1.75 seconds
+#define OBSTACLE_WAIT3 1500
 #define OBSTACLE_MOVE 5000 // 5 seconds
+#define OBSTACLE_MOVE2 4500 // 4.5 seconds
+#define OBSTACLE_MOVE3 4000 // 4 seconds
 #define UART_TIMER 1000
 #define IFRAMES 500 // 0.5 seconds
 #define JUMP 250 // 1 second

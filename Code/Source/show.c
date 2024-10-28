@@ -7,6 +7,10 @@
 
 #include "Code/Header/show.h"
 
+extern const Graphics_Image image8BPP_UNCOMP;
+extern const Graphics_Image pipe4BPP_UNCOMP;
+extern const Graphics_Image gameover4BPP_UNCOMP;
+
 // Graphics that show when the code gets reset
 void App_proj2_showTitleScreen(GFX *gfx_p, App_proj2 *app_p)
 {
@@ -20,10 +24,20 @@ void App_proj2_showTitleScreen(GFX *gfx_p, App_proj2 *app_p)
         app_p->titleTimer = SWTimer_construct(3000);
         SWTimer_start(&app_p->titleTimer);
         GFX_drawRectangle(gfx_p, 25, 80, 105, 90);
+        Graphics_drawImage(&gfx_p->context, &image8BPP_UNCOMP, 50, 95);
         isRunning = true;
     }
     double percentElapsed = SWTimer_percentElapsed(&app_p->titleTimer);
     GFX_fillRectangle(gfx_p, 25, 80, 25 + (108 - 25) * percentElapsed, 90);
+    // If statements responsible for the animation between images
+    if (percentElapsed > 0.33 && percentElapsed < 0.66)
+    {
+        Graphics_drawImage(&gfx_p->context, &pipe4BPP_UNCOMP, 50, 95);
+    }
+    else if (percentElapsed > 0.66)
+    {
+        Graphics_drawImage(&gfx_p->context, &gameover4BPP_UNCOMP, 50, 95);
+    }
 }
 
 // Graphics that show after the title screen

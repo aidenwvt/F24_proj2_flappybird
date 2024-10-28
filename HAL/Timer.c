@@ -122,7 +122,7 @@ uint64_t SWTimer_elapsedCycles(SWTimer* timer_p)
     uint64_t rollovers = hwTimerRollovers - timer_p->startRollovers;
     uint64_t startCounter = timer_p->startCounter;
     uint64_t currentCounter = Timer32_getValue(TIMER32_0_BASE);
-    uint64_t elapsedCycles = ((rollovers * (LOADVALUE + 1)) + startCounter) - currentCounter;
+    uint64_t elapsedCycles = ((rollovers * ((uint64_t)LOADVALUE + (uint64_t)1)) + startCounter) - currentCounter;
 
     return elapsedCycles;
 }

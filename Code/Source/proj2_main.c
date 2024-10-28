@@ -64,9 +64,6 @@ App_proj2 App_proj2_construct(HAL *hal_p)
     // Timer used for short, temporary applications
     app.miscTimer     = SWTimer_construct(TITLE_SCREEN_TIMER);
 
-    // Timer that keeps track of time in between obstacles
-    app.obstacleWait  = SWTimer_construct(OBSTACLE_WAIT);
-
     // Timer responsible for moving obstacles from one side to another
     app.waitTimer     = SWTimer_construct(OBSTACLE_MOVE);
 

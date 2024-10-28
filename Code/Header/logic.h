@@ -19,5 +19,7 @@ void obstacleSpawner(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p);
 void obstacleTypeVal(App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p, int i);
 void damageCheck(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p);
 void calculateHighScore(App_proj2 *app_p, HAL *hal_p);
+void waitDifficulty(App_proj2 *app_p);
+void spawnDifficulty(App_proj2 *app_p, Obstacle *newObstacle);
 
 #endif /* CODE_LOGIC_H_ */
