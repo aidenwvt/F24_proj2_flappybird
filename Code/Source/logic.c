@@ -34,14 +34,16 @@ void moveSquare(GFX *gfx_p, HAL *hal_p, App_proj2 *app_p)
     if (Joystick_isPressedToRight(&hal_p->joystick) && app_p->maxX < 127)
     {
         float x = return_Joystick_X(&hal_p->joystick);
-        app_p->minX += (0.9 / 6000) * (x - 10000) + 0.1;
-        app_p->maxX += (0.9 / 6000) * (x - 10000) + 0.1;
+        app_p->minX += 0.5;
+        app_p->maxX += 0.5;
+/*        app_p->minX += (0.9 / 6000) * (x - 10000) + 0.1;
+        app_p->maxX += (0.9 / 6000) * (x - 10000) + 0.1;*/
     }
     else if (Joystick_isPressedToLeft(&hal_p->joystick) && app_p->minX > 0)
     {
         float x2 = return_Joystick_X(&hal_p->joystick);
-        app_p->minX -= (0.9 / 5000) * (5000 - x2) + 0.1;
-        app_p->maxX -= (0.9 / 5000) * (5000 - x2) + 0.1;
+        app_p->minX -= 0.5;
+        app_p->maxX -= 0.5;
     }
 
     // If BB1 is pressed OR we are currently jumping, make the player jump
@@ -56,16 +58,20 @@ void moveSquare(GFX *gfx_p, HAL *hal_p, App_proj2 *app_p)
        // Y position logic for jumping
        if (app_p->minY > 22.5) {
            if (Joystick_isPressedToUp(&hal_p->joystick)) {
-               app_p->minY -= (0.9 / 6000) * (return_Joystick_Y(&hal_p->joystick) - 12000) + 0.75;
-               app_p->maxY -= (0.9 / 6000) * (return_Joystick_Y(&hal_p->joystick) - 12000) + 0.75;
+               app_p->minY -= 1;
+               app_p->maxY -= 1;
+/*               app_p->minY -= (0.9 / 6000) * (return_Joystick_Y(&hal_p->joystick) - 12000) + 0.75;
+               app_p->maxY -= (0.9 / 6000) * (return_Joystick_Y(&hal_p->joystick) - 12000) + 0.75;*/
            }
            else if (Joystick_isPressedToDown(&hal_p->joystick)) {
-               app_p->minY -= (0.9 / 6000) * (1 / (3000 - return_Joystick_Y(&hal_p->joystick))) + 0.5;
-               app_p->maxY -= (0.9 / 6000) * (1 / (3000 - return_Joystick_Y(&hal_p->joystick))) + 0.5;
+               app_p->minY -= 0.5;
+               app_p->maxY -= 0.5;
+/*               app_p->minY -= (0.9 / 6000) * (1 / (3000 - return_Joystick_Y(&hal_p->joystick))) + 0.5;
+               app_p->maxY -= (0.9 / 6000) * (1 / (3000 - return_Joystick_Y(&hal_p->joystick))) + 0.5;*/
            }
            else {
-               app_p->minY = app_p->minY - 0.75;
-               app_p->maxY = app_p->maxY - 0.75;
+               app_p->minY -= 0.75;
+               app_p->maxY -= 0.75;
            }
        }
     }
@@ -107,7 +113,6 @@ void obstacleSpawner(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
     // Fix the bug (news flash, it did not :()
     if (!app_p->isWaiting)
     {
-        waitDifficulty(app_p);
         SWTimer_start(&app_p->obstacleWait);
         app_p->isWaiting = true;
     }
@@ -119,7 +124,7 @@ void obstacleSpawner(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
         {
             Obstacle *newObstacle = &app_p->obstacles[continueCheck];
             obstacleTypeVal(app_p, hal_p, obj_p, continueCheck);
-            spawnDifficulty(app_p, newObstacle);
+            newObstacle->obstacleTimer = SWTimer_construct(OBSTACLE_MOVE);
             newObstacle->moving = true;
             SWTimer_start(&newObstacle->obstacleTimer);
             app_p->isWaiting = false;
@@ -251,7 +256,7 @@ void damageCheck(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
            // If collision happened, remove a life
            if ((collidesWithBottom || collidesWithTop) && SWTimer_expired(&app_p->iFrames))
            {
-               startBluePWMTimer();
+               //startBluePWMTimer();
                SWTimer_start(&app_p->dmgTimer);
                SWTimer_start(&app_p->iFrames);
                GFX_setForeground(gfx_p, GRAPHICS_COLOR_BLACK);
@@ -262,9 +267,9 @@ void damageCheck(GFX *gfx_p, App_proj2 *app_p, HAL *hal_p, Obstacle *obj_p)
            }
        }
 
-       if (SWTimer_expired(&app_p->dmgTimer)) {
+/*       if (SWTimer_expired(&app_p->dmgTimer)) {
            stopBluePWMTimer();
-       }
+       }*/
 
        if (app_p->lives == 0)
        {

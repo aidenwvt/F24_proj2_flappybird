@@ -67,6 +67,8 @@ App_proj2 App_proj2_construct(HAL *hal_p)
     // Timer responsible for moving obstacles from one side to another
     app.waitTimer     = SWTimer_construct(OBSTACLE_MOVE);
 
+    app.obstacleWait  = SWTimer_construct(OBSTACLE_WAIT);
+
     // Timer for time in between damage
     app.iFrames       = SWTimer_construct(IFRAMES);
 
